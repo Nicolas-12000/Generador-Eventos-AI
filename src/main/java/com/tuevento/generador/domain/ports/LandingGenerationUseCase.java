@@ -5,5 +5,6 @@ import java.util.UUID;
 
 public interface LandingGenerationUseCase {
     String generateLandingContent(Events event, UUID templateId);
-    void publishLanding(UUID landingId);
+    String previewLanding(UUID eventId, UUID templateId);
+    void publishLanding(UUID eventId);
 }

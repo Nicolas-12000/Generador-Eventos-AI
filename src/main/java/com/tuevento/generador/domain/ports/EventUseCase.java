@@ -5,9 +5,9 @@ import java.util.List;
 import java.util.UUID;
 
 public interface EventUseCase {
-    Events createEvent(Events event, UUID userId);
+    Events createEvent(Events event, UUID organizerId);
     Events updateEvent(UUID eventId, Events event);
     void deleteEvent(UUID eventId);
-    Events getEvent(UUID eventId);
-    List<Events> getEventsByUser(UUID userId);
+    Events getEventById(UUID eventId);
+    List<Events> getEventsByOrganizer(UUID organizerId);
 }
