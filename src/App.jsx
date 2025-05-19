@@ -18,5 +18,6 @@ function App() {
         <Route path="/landing/:id" element={<LandingPage />} />
       </Routes>
     </BrowserRouter>
+    
   );
 }
