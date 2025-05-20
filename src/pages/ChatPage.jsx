@@ -1,83 +1,104 @@
-import { useState, useEffect } from 'react';
-import { sendChatMessage } from '../services/api';
+// src/pages/ChatPage.jsx
+import { useState } from 'react';
 import ChatBubble from '../components/ChatBubble';
+import { apiService } from '../services/api';
 
 export default function ChatPage() {
-  const [messages, setMessages] = useState([
-    { 
-      text: "¡Hola! Soy tu asistente para crear landing pages de eventos. Por favor, descríbeme tu evento (nombre, fecha, lugar, etc.)", 
-      isUser: false 
-    }
-  ]);
-  const [input, setInput] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
+  const [state, setState] = useState({
+    messages: [
+      { text: "¡Hola! Soy tu asistente para crear landing pages. Describe tu evento.", isUser: false }
+    ],
+    input: '',
+    isLoading: false,
+    eventData: {} // Almacena datos del evento para la generación
+  });
 
   const handleSend = async () => {
-    if (!input.trim() || isLoading) return;
-    
-    // Mensaje del usuario
-    const userMessage = { text: input, isUser: true };
-    setMessages(prev => [...prev, userMessage]);
-    setInput('');
-    setIsLoading(true);
+    if (!state.input.trim() || state.isLoading) return;
 
-    try {
-      // Llamada al backend con Azure OpenAI
-      const response = await sendChatMessage(input);
-      
-      // Respuesta de la IA
-      setMessages(prev => [...prev, { 
-        text: response.data.reply, // Ajusta según la estructura de tu backend
-        isUser: false 
-      }]);
-      
-      // Si la IA detecta que el evento está completo, sugerir generación
-      if (response.data.isEventComplete) {
-        setMessages(prev => [...prev, {
-          text: "¿Quieres generar la landing page ahora?",
-          isUser: false,
-          isActionable: true // Flag para mostrar botón de acción
-        }]);
-      }
-    } catch (error) {
-      setMessages(prev => [...prev, { 
-        text: "⚠️ Error al conectar con el servidor", 
-        isUser: false 
-      }]);
-    } finally {
-      setIsLoading(false);
-    }
+    // 1. Actualizar UI con mensaje del usuario
+    setState(prev => ({
+      ...prev,
+      messages: [...prev.messages, { text: prev.input, isUser: true }],
+      input: '',
+      isLoading: true
+    }));
+
+    // 2. Enviar mensaje al backend/mock
+    const response = await apiService.sendMessage(state.input);
+
+    // 3. Procesar respuesta
+    setState(prev => ({
+      ...prev,
+      messages: [...prev.messages, {
+        text: response.message,
+        isUser: false,
+        action: response.action // 'generate' o null
+      }],
+      isLoading: false,
+      // Actualizar datos del evento si es relevante
+      eventData: response.metadata ? { ...prev.eventData, ...response.metadata } : prev.eventData
+    }));
+  };
+
+  const handleGenerate = async () => {
+    setState(prev => ({ ...prev, isLoading: true }));
+    
+    // Aquí implementaríamos apiService.generateLanding()
+    // Por ahora simulamos la generación
+    await new Promise(resolve => setTimeout(resolve, 1500));
+    
+    setState(prev => ({
+      ...prev,
+      messages: [...prev.messages, {
+        text: "Landing page generada con éxito!",
+        isUser: false,
+        isLink: true,
+        link: "/preview/123" // Ruta para previsualización
+      }],
+      isLoading: false
+    }));
   };
 
   return (
     <div className="flex flex-col h-screen bg-gray-50">
       {/* Cabecera */}
-      <header className="bg-event-primary text-white p-4 shadow-md">
+      <header className="bg-blue-600 text-white p-4 shadow-md">
         <h1 className="text-xl font-bold">Asistente para Eventos</h1>
       </header>
 
       {/* Área de mensajes */}
       <div className="flex-1 p-4 overflow-y-auto">
-        {messages.map((msg, i) => (
+        {state.messages.map((msg, i) => (
           <div key={i} className="mb-4">
             <ChatBubble 
               text={msg.text} 
               isUser={msg.isUser} 
+              isLoading={msg.isLoading}
             />
-            {msg.isActionable && (
-              <button 
-                className="mt-2 bg-event-secondary text-white px-4 py-2 rounded hover:bg-green-600 transition-colors"
-                onClick={() => console.log("Generar landing page")}
+            {msg.action === 'generate' && (
+              <button
+                onClick={handleGenerate}
+                className="mt-2 bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600"
+                disabled={state.isLoading}
               >
                 Generar Landing Page
               </button>
             )}
+            {msg.isLink && (
+              <a 
+                href={msg.link} 
+                className="mt-2 inline-block bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+              >
+                Ver Previsualización
+              </a>
+            )}
           </div>
         ))}
-        {isLoading && (
+        {state.isLoading && !state.messages.some(m => m.isLoading) && (
           <ChatBubble 
-            text="Procesando..." 
-            isUser={false} 
+            text="Procesando..."
+            isUser={false}
             isLoading={true}
           />
         )}
@@ -88,19 +109,19 @@ export default function ChatPage() {
         <div className="flex gap-2">
           <input
             type="text"
-            value={input}
-            onChange={(e) => setInput(e.target.value)}
+            value={state.input}
+            onChange={(e) => setState(prev => ({ ...prev, input: e.target.value }))}
             onKeyPress={(e) => e.key === 'Enter' && handleSend()}
-            className="flex-1 border p-2 rounded focus:outline-none focus:ring-2 focus:ring-event-primary"
-            placeholder="Escribe aquí..."
-            disabled={isLoading}
+            className="flex-1 border p-2 rounded focus:ring-2 focus:ring-blue-500"
+            placeholder="Describe tu evento..."
+            disabled={state.isLoading}
           />
           <button
             onClick={handleSend}
-            disabled={isLoading}
-            className="bg-event-primary text-white px-4 py-2 rounded hover:bg-indigo-600 disabled:opacity-50 transition-colors"
+            disabled={state.isLoading}
+            className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 disabled:opacity-50"
           >
-            {isLoading ? 'Enviando...' : 'Enviar'}
+            {state.isLoading ? '...' : 'Enviar'}
           </button>
         </div>
       </div>

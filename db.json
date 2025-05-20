@@ -1,0 +1,17 @@
+{
+  "responses": [
+    {
+      "id": 1,
+      "text": "¡Hola! Soy tu asistente para crear eventos. Por favor, descríbeme tu evento.",
+      "isUser": false
+    }
+  ],
+  "events": [],
+  "users": [
+    {
+      "id": 1,
+      "email": "test@example.com",
+      "password": "123456"
+    }
+  ]
+}
