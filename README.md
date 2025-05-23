@@ -1,99 +1,102 @@
-# Generador AI de Landing Pages para Eventos
+# 📱 Generador AI de Landing Pages para Eventos
 
-## 1. Descripción
+### 📝 Descripción
 
-Este proyecto tiene como objetivo desarrollar una aplicación web innovadora utilizando **Spring Boot (Java 21)** que simplifica la creación de landing pages para eventos. La idea central es permitir a los usuarios interactuar con un **chatbot impulsado por Inteligencia Artificial (Azure OpenAI Service)** para describir los detalles de su evento (nombre, fecha, lugar, ponentes, descripción, etc.).
+Aplicación web desarrollada con **Spring Boot (Java 21)** que permite a los usuarios crear landing pages para eventos conversando con un chatbot potenciado por **Inteligencia Artificial (Azure OpenAI Service)**.  
+A partir de esa conversación se genera contenido personalizado que se integra en **plantillas Thymeleaf** y se renderiza como una página funcional con **Google Maps** embebido.
 
-La aplicación procesará esta conversación, extraerá la información relevante y, utilizando la IA, generará el contenido textual necesario. Este contenido se integrará dinámicamente en **plantillas HTML/CSS predefinidas (gestionadas con Thymeleaf)**, resultando en una landing page funcional y estéticamente agradable para el evento, incluyendo un mapa interactivo (Google Maps) con la ubicación.
-
-Se busca ofrecer una solución rápida, personalizada y eficiente para la promoción de eventos, reduciendo el esfuerzo técnico requerido por parte del usuario.
-
-## 2. Arquitectura del Software
-
-El proyecto se desarrollará siguiendo los principios de la **Arquitectura Limpia (Clean Architecture)** y la **Arquitectura Hexagonal (Ports and Adapters)**. Esta elección busca maximizar la **modularidad, testeabilidad, mantenibilidad y escalabilidad** de la aplicación, desacoplando el núcleo de la lógica de negocio de las dependencias externas (frameworks, bases de datos, APIs).
-
-La estructura conceptual se dividirá en las siguientes capas:
-
-* **Capa de Dominio (Domain Core):**
-    * Contendrá las **entidades de negocio** (`Evento`, `Usuario`, `MensajeChat`, `Plantilla`, etc.) con sus atributos y lógica de negocio intrínseca (reglas de validación, invariantes).
-    * Será la capa más interna y **no tendrá dependencias** de ninguna otra capa.
-    * Definirá las **interfaces (puertos)** que necesita para operaciones externas (ej. `EventoRepositoryPort`, `ChatRepositoryPort`).
-
-* **Capa de Aplicación (Application / Use Cases):**
-    * Orquestará los **casos de uso** del sistema (ej. `CrearEventoDesdeChatUseCase`, `AutenticarUsuarioUseCase`, `ObtenerHistorialChatsUseCase`).
-    * Implementará la lógica de aplicación, coordinando la interacción entre el dominio y la infraestructura.
-    * **Dependerá únicamente de la capa de Dominio**.
-    * Definirá interfaces (puertos) para las herramientas que necesita (ej. `ProveedorAIPort`, `ServicioTokensPort`, `MapaServicePort`).
-
-* **Capa de Infraestructura (Infrastructure / Adapters):**
-    * Contendrá las **implementaciones concretas** de los puertos definidos en las capas internas y gestionará la interacción con el mundo exterior.
-    * Se dividirá en:
-        * **Adaptadores de Entrada (Driving Adapters):** Puntos de entrada que invocan los casos de uso.
-            * Controladores Spring Web (API REST para el chat, MVC para servir las páginas y plantillas Thymeleaf).
-        * **Adaptadores de Salida (Driven Adapters):** Implementaciones que interactúan con servicios externos.
-            * Implementación de Repositorios con Spring Data JPA (para MySQL).
-            * Cliente HTTP/SDK para interactuar con Azure OpenAI Service.
-            * Implementación del servicio de autenticación JWT con Spring Security.
-            * Integración con la API de Google Maps (principalmente en el frontend, pero podría haber lógica de backend si es necesario).
-
-Esta separación estricta permite cambiar o actualizar tecnologías en la capa de infraestructura (ej. cambiar de MySQL a PostgreSQL, o de Azure OpenAI a otro proveedor de IA) con un impacto mínimo en las capas de Aplicación y Dominio.
-
-## 3. Características Planeadas
-
-### Versión Inicial (MVP)
-
-* **Autenticación:** Registro e inicio de sesión de usuarios (Spring Security + JWT).
-* **Chatbot Básico:** Interfaz de chat (Thymeleaf + JS) para recoger información del evento.
-* **Generación de Contenido IA:** Integración con Azure OpenAI para generar texto descriptivo.
-* **Plantillas Fijas:** Uso de 1-2 plantillas Thymeleaf predefinidas para la estructura de la landing page.
-* **Renderizado de Landing Page:** Generación y visualización de la página del evento con el contenido de la IA y mapa básico (Google Maps).
-* **Historial Simple:** Listado de eventos/chats creados por el usuario con opción de borrado.
-* **Persistencia:** Almacenamiento en base de datos MySQL (Usuarios, Eventos, Chats).
-
-### Mejoras Futuras
-
-* **Múltiples Plantillas:** Permitir al usuario elegir entre varias plantillas de diseño.
-* **Personalización vía Chat:** Interpretar peticiones básicas de estilo (ej. "colores corporativos", "tono formal/informal") para ajustar la generación de IA y/o selección/modificación de CSS en la plantilla.
-* **Gestión de Tokens IA:** Monitorizar y (opcionalmente) limitar el uso de la API de IA por usuario/evento.
-* **Previsualización en Chat:** Mostrar un borrador o resumen de la landing page directamente en la interfaz del chat antes de la generación final.
-* **Mejoras UI/UX:** Refinar la interfaz del chat y la gestión del historial.
-* **Despliegue:** Contenerización (Docker) y scripts para despliegue en la nube (ej. Azure).
-* **Pruebas:** Cobertura extensiva de pruebas unitarias, de integración y E2E.
-
-## 4. Pila Tecnológica Principal
-
-* **Lenguaje:** Java 21
-* **Framework:** Spring Boot 3.x
-* **Base de Datos:** MySQL
-* **Persistencia:** Spring Data JPA / Hibernate
-* **Seguridad:** Spring Security (JWT)
-* **Motor de Plantillas:** Thymeleaf
-* **Build Tool:** Maven
-* **IA:** Azure OpenAI Service
-* **Mapas:** Google Maps JavaScript API
-* **Desarrollo:** Lombok, Spring Boot DevTools
-
-## 5. Cómo Empezar (Configuración Inicial)
-
-### Prerrequisitos
-
-* JDK 21+
-* Maven 3.8+
-* Servidor MySQL accesible
-* Cuenta de Azure con acceso a OpenAI Service (Endpoint y API Key)
-* API Key de Google Maps Platform (habilitada para Maps JavaScript API)
-
-### Pasos
-
-1.  **Clonar el Repositorio:** `git clone <URL>`
-2.  **Configurar `application.properties` (o `.yml`):**
-    * Detalles de conexión a MySQL (`spring.datasource.*`).
-    * Credenciales de Azure OpenAI (`azure.openai.endpoint`, `azure.openai.key`, etc.).
-    * Secreto para JWT (`jwt.secret`, `jwt.expiration.ms`).
-3.  **Compilar:** `mvn clean install`
-4.  **Ejecutar:** `mvn spring-boot:run`
-5.  **Inyectar API Key de Google Maps:** Asegúrate de incluir tu API Key de Google Maps en el código HTML/JavaScript del frontend donde se carga el mapa.
+El enfoque es ofrecer una solución **simple, eficiente y escalable**, evitando sobre-ingeniería y dependencias innecesarias, pero aplicando patrones de diseño esenciales para mantener un código limpio y duradero.
 
 ---
 
-*Este README es un documento vivo y se actualizará a medida que el proyecto avance.*
+## ⚙️ Arquitectura
+
+Se sigue una arquitectura basada en principios de **Clean Architecture** y **Hexagonal Architecture (Ports and Adapters)**, separando de forma clara:
+
+- **Dominio**: Entidades y lógica de negocio sin dependencias externas.
+- **Casos de Uso (Application)**: Coordinan la lógica aplicativa.
+- **Infraestructura**: Controladores, clientes externos y persistencia.
+
+---
+
+## 📐 Patrones de Diseño Utilizados (Por Qué y Dónde)
+
+| Patrón                    | Uso                                                              |
+|:--------------------------|:-----------------------------------------------------------------|
+| **Singleton**              | Para clientes de **Azure OpenAI** y **Google Maps**.             |
+| **Factory / Builder**      | Para construir entidades `Evento` a partir de mensajes de chat.  |
+| **Chain of Responsibility**| Para modularizar el procesamiento de mensajes en el chatbot.     |
+| **Decorator**              | Para añadir dinámicamente secciones al codigo base y a las landing. |
+|**Adapter (Ports & Adapters)**  |	Como parte de la Arquitectura Hexagonal, conecta el dominio con controladores, repositorios y servicios externos|
+
+👉 Solo estos **5 patrones**, por ser los que realmente aportan valor inmediato sin generar complejidad innecesaria.
+
+---
+
+## 🖥️ Características
+
+✅ Registro e inicio de sesión con JWT  
+✅ Interfaz de chat para describir eventos  
+✅ Generación de contenido descriptivo con Azure OpenAI  
+✅ Renderizado de landing page con Thymeleaf y Google Maps  
+✅ Historial de eventos creados  
+✅ Persistencia con MySQL  
+
+---
+
+## 📦 Pila Tecnológica
+
+- **Java 21**
+- **Spring Boot 3.x**
+- **Thymeleaf**
+- **MySQL** + Spring Data JPA
+- **Spring Security (JWT)**
+- **Azure OpenAI Service**
+- **Google Maps JavaScript API**
+- **Maven**
+- **Lombok** (solo para reducir boilerplate, opcional según preferencia)
+
+---
+
+## 📑 Filosofía de Desarrollo
+
+✅ **Simple pero funcional**  
+✅ **Robusto sin sobre-ingeniería**  
+✅ **Mínimas dependencias externas**  
+✅ **Código limpio, mantenible y duradero**  
+✅ **Patrones de diseño solo donde realmente aportan valor**
+
+---
+
+## 🛠️ Configuración Inicial
+
+### Requisitos
+
+- JDK 21+
+- Maven 3.8+
+- Servidor MySQL
+- Cuenta de Azure con Azure OpenAI
+- API Key de Google Maps Platform
+
+### Pasos
+
+git clone <URL>
+
+### Configura application.properties:
+
+spring.datasource.url=
+spring.datasource.username=
+spring.datasource.password=
+
+azure.openai.endpoint=
+azure.openai.key=
+
+jwt.secret=
+jwt.expiration.ms=
+
+### Compila y ejecuta:
+
+
+mvn clean install
+mvn spring-boot:run
+Incluye tu API Key de Google Maps en los scripts de los templates HTML.
