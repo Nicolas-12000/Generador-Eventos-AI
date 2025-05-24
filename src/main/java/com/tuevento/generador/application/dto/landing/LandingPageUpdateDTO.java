@@ -11,6 +11,6 @@ public class LandingPageUpdateDTO {
     private Optional<String> backgroundImageUrl = Optional.empty();
     private Optional<String> accentColor = Optional.empty();
     private Optional<Boolean> showMap = Optional.empty();
-    private Optional<Boolean> showAgenda = Optional.empty();
+    private Optional<Boolean> showSchedule = Optional.empty();
     private Optional<Boolean> showSpeakers = Optional.empty();
 }

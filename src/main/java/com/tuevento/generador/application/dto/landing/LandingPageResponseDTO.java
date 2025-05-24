@@ -13,6 +13,6 @@ public class LandingPageResponseDTO {
     private String backgroundImageUrl;
     private String accentColor;
     private boolean showMap;
-    private boolean showAgenda;
+    private boolean showSchedule;
     private boolean showSpeakers;
 }

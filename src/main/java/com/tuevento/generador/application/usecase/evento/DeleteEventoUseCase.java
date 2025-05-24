@@ -10,7 +10,7 @@ import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
-public class EliminarEventoUseCase {
+public class DeleteEventoUseCase {
 
     private final EventRepositoryPort repository;
 

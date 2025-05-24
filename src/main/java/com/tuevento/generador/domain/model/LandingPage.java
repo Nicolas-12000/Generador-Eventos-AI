@@ -83,6 +83,18 @@ public class LandingPage {
     @Column(name = "section_name")
     @Builder.Default
     private List<String> activeSections = new ArrayList<>(); // e.g., ["contact_form", "gallery", "agenda"]
+
+    public boolean isShowMap(){
+        return activeSections.contains("map");
+    }
+
+    public boolean isShowSchedule(){
+        return activeSections.contains("agenda");
+    }
+
+    public boolean isShowSpeakers(){
+        return activeSections.contains("Ponentes");
+    }
     
     // SEO and meta information
     @Column(name = "meta_description", length = 500)

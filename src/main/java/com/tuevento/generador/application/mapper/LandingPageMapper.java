@@ -13,7 +13,7 @@ public class LandingPageMapper {
     public static LandingPage toEntity(LandingPageCreateDTO dto) {
         List<String> sections = new ArrayList<>();
         if (dto.isShowMap())      sections.add("map");
-        if (dto.isShowAgenda())   sections.add("agenda");
+        if (dto.isShowSchedule())   sections.add("agenda");
         if (dto.isShowSpeakers()) sections.add("speakers");
 
         return LandingPage.builder()
@@ -37,7 +37,7 @@ public class LandingPageMapper {
                 .backgroundImageUrl(landingPage.getOgImageUrl())
                 .accentColor(landingPage.getSelectedStyle())
                 .showMap(sections.contains("map"))
-                .showAgenda(sections.contains("agenda"))
+                .showSchedule(sections.contains("agenda"))
                 .showSpeakers(sections.contains("speakers"))
                 .build();
     }
@@ -52,7 +52,7 @@ public class LandingPageMapper {
             if (show) landingPage.getActiveSections().add("map");
             else       landingPage.getActiveSections().remove("map");
         });
-        dto.getShowAgenda().ifPresent(show -> {
+        dto.getShowSchedule().ifPresent(show -> {
             if (show) landingPage.getActiveSections().add("agenda");
             else       landingPage.getActiveSections().remove("agenda");
         });

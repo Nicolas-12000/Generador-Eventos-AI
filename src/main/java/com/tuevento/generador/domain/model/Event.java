@@ -1,10 +1,14 @@
 package com.tuevento.generador.domain.model;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.UUID;
+import java.util.List;
 
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.CollectionTable;
 import jakarta.persistence.Column;
+import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -69,6 +73,22 @@ public class Event {
     @Column(name = "status", nullable = false)
     @Builder.Default
     private EventStatus status = EventStatus.DRAFT;
+
+    @ElementCollection(fetch = FetchType.LAZY)
+    @CollectionTable(
+      name = "event_speakers",
+      joinColumns = @JoinColumn(name = "event_id")
+    )
+    @Builder.Default
+    private List<SpeakerInfo> speakers = new ArrayList<>();
+
+     @ElementCollection(fetch = FetchType.LAZY)
+    @CollectionTable(
+      name = "event_schedule_items",
+      joinColumns = @JoinColumn(name = "event_id")
+    )
+    @Builder.Default
+    private List<ScheduleItem> schedule = new ArrayList<>();
     
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "user_id", nullable = false)
@@ -109,6 +129,7 @@ public class Event {
     
     @OneToOne(mappedBy = "event", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private LandingPage landingPage;
+
     
     /**
      * Factory method para crear un nuevo evento

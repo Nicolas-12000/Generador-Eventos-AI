@@ -21,7 +21,7 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class ActualizarEventoUseCase {
+public class UpdateEventoUseCase {
     
     private final EventJpaRepository eventRepository;
     
