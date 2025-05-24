@@ -20,8 +20,10 @@ import jakarta.persistence.PreUpdate;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
+
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 /**
  * Entidad de dominio Event
@@ -31,10 +33,10 @@ import lombok.NoArgsConstructor;
  
 @Entity
 @Table(name = "events")
-@Data
-@Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
+@Getter @Setter
 public class Event {
     
     @Id
@@ -68,7 +70,8 @@ public class Event {
     @Builder.Default
     private EventStatus status = EventStatus.DRAFT;
     
-    @Column(name = "user_id", nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "user_id", nullable = false)
     private UUID userId; // Owning user
     
     @Column(name = "created_at", nullable = false)
@@ -110,17 +113,18 @@ public class Event {
     /**
      * Factory method para crear un nuevo evento
      */
-    public static Event createNew(String name, String description, LocalDateTime eventDateTime,
-                                 String locationDetails, UUID userId) {
+    public static Event createNew(User user,
+                                  String name,
+                                  String description,
+                                  LocalDateTime eventDateTime,
+                                  String locationDetails) {
         return Event.builder()
+                .user(user)
                 .name(name)
                 .description(description)
                 .eventDateTime(eventDateTime)
                 .locationDetails(locationDetails)
-                .userId(userId)
                 .status(EventStatus.DRAFT)
-                .createdAt(LocalDateTime.now())
-                .updatedAt(LocalDateTime.now())
                 .build();
     }
     
@@ -162,14 +166,10 @@ public class Event {
     
     @PrePersist
     protected void onCreate() {
-        if (createdAt == null) {
-            createdAt = LocalDateTime.now();
-        }
-        if (updatedAt == null) {
-            updatedAt = LocalDateTime.now();
-        }
+        createdAt = LocalDateTime.now();
+        updatedAt = createdAt;
     }
-    
+
     @PreUpdate
     protected void onUpdate() {
         updatedAt = LocalDateTime.now();
@@ -183,6 +183,7 @@ public class Event {
     PUBLISHED, 
     CANCELLED,
     COMPLETED
+
 }
 
 }

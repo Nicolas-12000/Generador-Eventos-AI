@@ -21,37 +21,37 @@ import java.util.UUID;
 public class EventoResponseDTO {
     
     private Long id;
-    private String nombre;
-    private String descripcion;
+    private String name;
+    private String description;
     
     @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
-    private LocalDateTime fechaHora;
+    private LocalDateTime eventDateTime;
     
-    private String detallesUbicacion;
-    private String direccion;
-    private String descripcionGeneradaIA;
-    private String palabrasClaveGeneradasIA;
-    private String estado;
-    private UUID usuarioId;
-    
-    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
-    private LocalDateTime fechaCreacion;
+    private String locationDetails;
+    private String locationAddress;
+    private String aiGeneratedDescription;
+    private String aiGeneratedKeywords;
+    private String status;
+    private UUID userId;
     
     @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
-    private LocalDateTime fechaActualizacion;
+    private LocalDateTime createdAt;
+    
+    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
+    private LocalDateTime updatedAt;
     
     // Detalles adicionales del organizador
-    private String nombreOrganizador;
-    private String emailOrganizador;
-    private String telefonoOrganizador;
-    private String tipoEvento;
-    private Integer maxAsistentes;
-    private String urlTickets;
-    private String urlImagen;
+    private String organizerName;
+    private String organizerEmail;
+    private String organizerPhone;
+    private String eventType;
+    private Integer maxAttendees;
+    private String ticketUrl;
+    private String eventImageUrl;
     
     // Información de estado del evento
-    private boolean listoParaPublicacion;
-    private boolean tieneLandingPage;
+    private boolean readyForPublication;
+    private boolean hasLandingPage;
     
     /**
      * Factory method para crear DTO desde entidad Event
@@ -59,26 +59,26 @@ public class EventoResponseDTO {
     public static EventoResponseDTO fromEntity(Event event) {
         return EventoResponseDTO.builder()
                 .id(event.getId())
-                .nombre(event.getName())
-                .descripcion(event.getDescription())
-                .fechaHora(event.getEventDateTime())
-                .detallesUbicacion(event.getLocationDetails())
-                .direccion(event.getLocationAddress())
-                .descripcionGeneradaIA(event.getAiGeneratedDescription())
-                .palabrasClaveGeneradasIA(event.getAiGeneratedKeywords())
-                .estado(event.getStatus().name())
-                .usuarioId(event.getUserId())
-                .fechaCreacion(event.getCreatedAt())
-                .fechaActualizacion(event.getUpdatedAt())
-                .nombreOrganizador(event.getOrganizerName())
-                .emailOrganizador(event.getOrganizerEmail())
-                .telefonoOrganizador(event.getOrganizerPhone())
-                .tipoEvento(event.getEventType())
-                .maxAsistentes(event.getMaxAttendees())
-                .urlTickets(event.getTicketUrl())
-                .urlImagen(event.getEventImageUrl())
-                .listoParaPublicacion(event.isReadyForPublication())
-                .tieneLandingPage(event.getLandingPage() != null)
+                .name(event.getName())
+                .description(event.getDescription())
+                .eventDateTime(event.getEventDateTime())
+                .locationDetails(event.getLocationDetails())
+                .locationAddress(event.getLocationAddress())
+                .aiGeneratedDescription(event.getAiGeneratedDescription())
+                .aiGeneratedKeywords(event.getAiGeneratedKeywords())
+                .status(event.getStatus().name())
+                .userId(event.getUserId())
+                .createdAt(event.getCreatedAt())
+                .updatedAt(event.getUpdatedAt())
+                .organizerName(event.getOrganizerName())
+                .organizerEmail(event.getOrganizerEmail())
+                .organizerPhone(event.getOrganizerPhone())
+                .eventType(event.getEventType())
+                .maxAttendees(event.getMaxAttendees())
+                .ticketUrl(event.getTicketUrl())
+                .eventImageUrl(event.getEventImageUrl())
+                .readyForPublication(event.isReadyForPublication())
+                .hasLandingPage(event.getLandingPage() != null)
                 .build();
     }
     
@@ -88,14 +88,14 @@ public class EventoResponseDTO {
     public static EventoResponseDTO fromEntitySummary(Event event) {
         return EventoResponseDTO.builder()
                 .id(event.getId())
-                .nombre(event.getName())
-                .fechaHora(event.getEventDateTime())
-                .detallesUbicacion(event.getLocationDetails())
-                .estado(event.getStatus().name())
-                .tipoEvento(event.getEventType())
-                .fechaCreacion(event.getCreatedAt())
-                .listoParaPublicacion(event.isReadyForPublication())
-                .tieneLandingPage(event.getLandingPage() != null)
+                .name(event.getName())
+                .eventDateTime(event.getEventDateTime())
+                .locationDetails(event.getLocationDetails())
+                .status(event.getStatus().name())
+                .eventType(event.getEventType())
+                .createdAt(event.getCreatedAt())
+                .readyForPublication(event.isReadyForPublication())
+                .hasLandingPage(event.getLandingPage() != null)
                 .build();
     }
 }

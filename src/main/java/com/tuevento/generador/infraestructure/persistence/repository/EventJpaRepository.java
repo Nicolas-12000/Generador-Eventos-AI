@@ -85,6 +85,12 @@ public interface EventJpaRepository extends JpaRepository<Event, Long> {
      * Busca eventos por usuario y nombre
      */
     List<Event> findByUserIdAndNameContainingIgnoreCase(UUID userId, String namePattern);
+
+    /**
+     * Buscar el evento y verificar propiedad
+     */
+    @Query("SELECT e FROM Event e WHERE e.id = :eventId AND e.userId = :userId")
+    Event findByIdAndUserId(@Param("eventId") Long eventId, @Param("userId") UUID userId);
     
     /**
      * Busca eventos por usuario y nombre con paginación
@@ -134,6 +140,12 @@ public interface EventJpaRepository extends JpaRepository<Event, Long> {
      * Verifica si un evento pertenece a un usuario
      */
     boolean existsByIdAndUserId(Long eventId, UUID userId);
+
+    /**
+     * Validar que no exista un evento con el mismo nombre para este usuario
+     */
+    @Query("SELECT COUNT(e) > 0 FROM Event e WHERE e.userId = :userId AND LOWER(e.name) = LOWER(:name)")
+    boolean existsByUserIdAndNameIgnoreCase(@Param("userId") UUID userId, @Param("name") String name);
     
     /**
      * Elimina todos los eventos de un usuario

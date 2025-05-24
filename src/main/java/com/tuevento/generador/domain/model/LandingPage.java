@@ -11,6 +11,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -41,7 +42,8 @@ public class LandingPage {
     @Column(name = "id")
     private Long id;
     
-    @Column(name = "event_id", nullable = false, unique = true)
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "event_id", nullable = false)
     private Long eventId; // Link to the event
     
     @Column(name = "page_title", nullable = false, length = 200)
