@@ -89,7 +89,7 @@ if (color != null && !color.matches("^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$")) {
         throw new IllegalStateException("No se puede mostrar agendas asociadas.");
     }
     // 6. map, salvar y devolver DTO
-     LandingPage entity = LandingPageMapper.toEntity(createDTO);
+    LandingPage entity = LandingPageMapper.toEntity(createDTO, event);
     LandingPage saved  = repository.save(entity);
     return LandingPageMapper.toResponseDTO(saved);
 }

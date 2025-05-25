@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:fragment="schedule">
+  <section id="schedule-section">
+    <h2>Schedule</h2>
+    <table>
+      <thead>
+        <tr><th>Start</th><th>End</th><th>Description</th></tr>
+      </thead>
+      <tbody>
+        <tr th:each="item : ${vm.schedule}">
+          <td th:text="${item.startTime}">HH:mm</td>
+          <td th:text="${item.endTime}">HH:mm</td>
+          <td th:text="${item.description}">Talk details</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>

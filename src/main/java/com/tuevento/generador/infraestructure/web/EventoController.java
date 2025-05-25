@@ -16,15 +16,16 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 
 import com.tuevento.generador.application.dto.evento.EventoCreateDTO;
 import com.tuevento.generador.application.dto.evento.EventoResponseDTO;
 import com.tuevento.generador.application.dto.evento.EventoUpdateDTO;
-import com.tuevento.generador.application.usecase.evento.UpdateEventoUseCase;
 import com.tuevento.generador.application.usecase.evento.CrearEventoUseCase;
 import com.tuevento.generador.application.usecase.evento.DeleteEventoUseCase;
-import com.tuevento.generador.application.usecase.evento.ListarEventosUseCase;
 import com.tuevento.generador.application.usecase.evento.GetEventoUseCase;
+import com.tuevento.generador.application.usecase.evento.ListarEventosUseCase;
+import com.tuevento.generador.application.usecase.evento.UpdateEventoUseCase;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -52,7 +53,7 @@ public class EventoController {
 
     @GetMapping
     public ResponseEntity<List<EventoResponseDTO>> list(
-            @RequestHeader("X-User-Id") UUID userId
+    @AuthenticationPrincipal UUID userId
     ) {
         List<EventoResponseDTO> events = listarUseCase.listarPorUsuario(userId);
         return ResponseEntity.ok(events);

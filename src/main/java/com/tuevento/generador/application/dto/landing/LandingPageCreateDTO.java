@@ -24,4 +24,12 @@ public class LandingPageCreateDTO {
     private boolean showSchedule;
     private boolean showSpeakers;
     private List<SpeakerInfoDTO> speakers;
+
+        // Dirección del evento, para geocodificación o despliegue en mapa
+    private String locationAddress;
+    private Double latitude;
+    private Double longitude;
+
+    // Secciones adicionales
+    private List<ScheduleItemDTO> schedule;
 }

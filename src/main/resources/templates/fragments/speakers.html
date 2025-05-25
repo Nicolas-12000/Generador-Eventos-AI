@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:fragment="speakers">
+  <section id="speakers-section">
+    <h2>Speakers</h2>
+    <ul>
+      <li th:each="s : ${vm.speakers}">
+        <strong th:text="${s.name}">Name</strong><br/>
+        <span th:text="${s.description}">Bio</span>
+      </li>
+    </ul>
+  </section>
+</html>
