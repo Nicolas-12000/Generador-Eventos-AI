@@ -2,8 +2,8 @@ package com.tuevento.generador.domain.model;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.UUID;
 import java.util.List;
+import java.util.UUID;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.CollectionTable;
@@ -24,7 +24,6 @@ import jakarta.persistence.PreUpdate;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -201,10 +200,9 @@ public class Event {
     */
     public enum EventStatus {
     DRAFT,
-    PUBLISHED, 
+    PUBLISHED,
     CANCELLED,
     COMPLETED
-
 }
 
 }

@@ -26,8 +26,6 @@ public class EventMapper {
                 .eventImageUrl(dto.getEventImageUrl())
                 .user(user)
                 .status(Event.EventStatus.DRAFT)
-                .createdAt(LocalDateTime.now())
-                .updatedAt(LocalDateTime.now())
                 .build();
     }
 
@@ -65,8 +63,6 @@ public class EventMapper {
                 .status(event.getStatus().name())
                 .aiGeneratedDescription(event.getAiGeneratedDescription())
                 .aiGeneratedKeywords(event.getAiGeneratedKeywords())
-                .createdAt(event.getCreatedAt())
-                .updatedAt(event.getUpdatedAt())
                 .organizerName(event.getUser() != null ? event.getUser().getUsername() : null)
                 .organizerEmail(event.getUser() != null ? event.getUser().getEmail()    : null)
                 .build();

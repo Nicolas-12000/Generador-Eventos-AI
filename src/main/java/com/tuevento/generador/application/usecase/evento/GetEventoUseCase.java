@@ -1,7 +1,6 @@
 package com.tuevento.generador.application.usecase.evento;
-import java.util.List;
+
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,20 +13,24 @@ import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
-public class ListarEventosUseCase {
+public class GetEventoUseCase {
 
     private final EventRepositoryPort repository;
 
     /**
-     * Devuelve todos los eventos de un usuario como DTOs.
+     * Obtiene un evento por ID y lo mapea a DTO.
      *
-     * @param userId el ID del usuario
-     * @return lista de EventResponseDTO
+     * @param eventId ID del evento a buscar
+     * @param userId  ID del usuario propietario
+     * @return        EventoResponseDTO
      */
     @Transactional(readOnly = true)
-    public List<EventoResponseDTO> listarPorUsuario(UUID userId) {
-        return repository.findByUserId(userId).stream()
+    public EventoResponseDTO execute (Long eventId, UUID userId) {
+        return repository.findById(eventId)
+            .filter(e -> e.getUserId().equals(userId))
             .map(EventMapper::toResponseDTO)
-            .collect(Collectors.toList());
+            .orElseThrow(() -> new IllegalArgumentException(
+                "Evento no encontrado o no autorizado."
+            ));
     }
 }

@@ -37,7 +37,7 @@ public class UpdateEventoUseCase {
      * @throws EventoBusinessException si hay errores de validación
      */
     @Transactional
-    public EventoResponseDTO ejecutar(Long eventoId, EventoUpdateDTO dto, UUID usuarioId) {
+    public EventoResponseDTO execute(Long eventoId, EventoUpdateDTO dto, UUID usuarioId) {
         log.info("Iniciando actualización de evento ID: {} por usuario: {}", eventoId, usuarioId);
         
         // Validar que hay algo que actualizar

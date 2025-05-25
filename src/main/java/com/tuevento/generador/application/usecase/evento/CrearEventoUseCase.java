@@ -34,7 +34,7 @@ public class CrearEventoUseCase {
      * @throws EventoBusinessException si hay errores de validación de negocio
      */
     @Transactional
-    public EventoResponseDTO ejecutar(EventoCreateDTO dto, UUID usuarioId) {
+    public EventoResponseDTO execute (EventoCreateDTO dto, UUID usuarioId) {
         log.info("Iniciando creación de evento para usuario: {}", usuarioId);
         
         // Validar que el usuario existe
