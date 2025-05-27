@@ -27,6 +27,7 @@ application-local.properties
 application-local.yml
 secrets.properties
 application.properties
+application.properties
 
 # === IDEs y Editores ===
 
