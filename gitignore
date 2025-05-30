@@ -1,0 +1,59 @@
+# === Operating System ===
+.DS_Store
+Thumbs.db
+ehthumbs.db
+Icon?
+
+# === IDEs and Editors ===
+.vscode/
+.idea/
+*.iml
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# === Node.js / React / Vite (frontend) ===
+/front/node_modules/
+/front/dist/
+/front/build/
+/front/.vite/
+/front/.env*
+/front/.eslintcache
+/front/npm-debug.log*
+/front/yarn-debug.log*
+/front/yarn-error.log*
+/front/pnpm-debug.log*
+/front/coverage/
+/front/.vscode/
+/front/.idea/
+
+# === Java / Maven / Spring Boot (backend) ===
+/back/target/
+/back/logs/
+/back/*.log
+/back/.mvn/
+/back/mvnw
+/back/mvnw.cmd
+# Mantén sólo el wrapper JARs necesarios
+!/back/.mvn/wrapper/maven-wrapper.jar
+!/back/.mvn/wrapper/maven-wrapper.properties
+
+# === Compiled files ===
+**/*.class
+**/*.jar
+**/*.war
+**/*.ear
+
+# === Dependency directories ===
+node_modules/
+
+# === Logs & Reports ===
+*.log
+logs/
+coverage/
+**/coverage/
+
+# === Miscellaneous ===
+*.log

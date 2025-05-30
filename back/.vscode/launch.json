@@ -1,0 +1,14 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Spring Boot-GeneradorEventosAiApplication<generador-eventos-ai>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.tuevento.generador.GeneradorEventosAiApplication",
+            "projectName": "generador-eventos-ai",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        }
+    ]
+}
