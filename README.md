@@ -39,7 +39,6 @@ Este enfoque reduce la complejidad de múltiples puertos/adapters, manteniendo s
 | **Factory / Builder**           | Lombok `@Builder` o fábricas estáticas para construir `Evento`.                                                                       |
 | **Adapter**                     | MapStruct o mappers manuales para DTO ↔ Entidad.                                                                                      |
 | **Facade**                      | Servicios que encapsulan llamadas a Azure OpenAI y Google Maps.                                                                       |
-| ~~**Chain of Responsibility**~~ | Gestionado internamente por filtros de Spring MVC (`OncePerRequestFilter`, `HandlerInterceptor`) en lugar de implementar manualmente. |
 | **Strategy**                    | Definir estrategias de renderizado o proveedores de mapas intercambiables.                                                            |
 | **Circuit Breaker / Retry**     | Spring Cloud Circuit Breaker o Spring Retry para resiliencia al llamar APIs externas.                                                 |
 
