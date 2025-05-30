@@ -112,17 +112,3 @@ Este enfoque reduce la complejidad de múltiples puertos/adapters, manteniendo s
    mvn clean install
    mvn spring-boot:run
    ```
-
-## 🧩 Microservicios: ¿Sí o No?: ¿Sí o No?
-
-* **Monolito Modular** (recomendado para MVP): Rápido de implementar, más fácil de desplegar y mantener cuando el equipo es pequeño.
-* **Microservicios** (considerar en fase avanzada): Útiles si prevés escalado independiente de módulos (chat, generación AI, gestión de eventos), pero conlleva mayor complejidad (deploy, monitoreo, comunicación entre servicios).
-
-> Para el plazo y alcance actual, se sugiere un monolito modular. Se puede evolucionar a microservicios en iteraciones posteriores si la carga o complejidad crece.
-
----
-
-¡Listo! Con este README tendrás una guía clara para implementar de forma ágil y mantenible, aprovechando las capacidades de Spring sin caer en sobre-ingeniería. Si quieres ajustar algo más, avísame.
-
-```
-```
