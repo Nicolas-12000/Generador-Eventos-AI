@@ -17,4 +17,7 @@ public interface EventRepository extends JpaRepository<Event, UUID> {
 
 
      Page<Event> findAllByOrganizerEmail(String organizerEmail, Pageable pg);
+
+     List<Event> findByOrganizerName(String organizerName);
+
 }

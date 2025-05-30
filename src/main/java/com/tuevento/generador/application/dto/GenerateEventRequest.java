@@ -7,4 +7,7 @@ import lombok.Data;
 public class GenerateEventRequest {
     @NotBlank
     private String userMessage;
+
+    @NotBlank
+    private String templateName;
 }
